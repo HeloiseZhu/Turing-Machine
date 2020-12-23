@@ -11,11 +11,11 @@ int parse_cli(int argc,char *argv[], string &path, string& input, int &mode) {
     }
     if(argc == 2) {
         if(strcmp(argv[1],"-h")==0 || strcmp(argv[1],"--help")==0) {
-            cout << "usage: turing [-v|--verbose] [-h|--help] <tm> <input>";
+            cout << "usage: turing [-v|--verbose] [-h|--help] <tm> <input>" << endl;
         }
         else {
             // TODO
-            cerr << "illegal order";
+            cerr << "illegal order" << endl;
             return -1;
         }
     }
@@ -28,10 +28,12 @@ int parse_cli(int argc,char *argv[], string &path, string& input, int &mode) {
         // turing [-v|--verbose] <tm> <input>
         if(strcmp(argv[1],"-v")==0 || strcmp(argv[1],"--verbose")==0) {
             mode = 1;
+            path = string(argv[2]);
+            input = string(argv[3]);
         }
         else {
             // TODO
-            cerr << "illegal order";
+            cerr << "illegal order" << endl;
             return -1;
         }
     }
@@ -80,7 +82,7 @@ int parse_tm(string path, TuringMachine* tm, int mode) {
     // TODO:verbose模式
     ifstream file(path.c_str());
     if(!file) {
-        cerr << path << " is not a legal tm file.";
+        cerr << path << " is not a legal tm file." << endl;
         return -1;
     }
     char line[1024] = {0};
@@ -117,7 +119,7 @@ int parse_tm(string path, TuringMachine* tm, int mode) {
         int i = -1;
         char *temp = nullptr;
         if (regex_match(line, r_states)) {
-            cout << line << endl;
+            //cout << line << endl;
             st = find('{', line);
             line[strlen(line) - 1] = ',';
             split(',', line + st + 1, tm->states);
@@ -127,7 +129,7 @@ int parse_tm(string path, TuringMachine* tm, int mode) {
             }*/
         }
         else if(regex_match(line,r_input_symbol)) {
-            cout << line << endl;
+            //cout << line << endl;
             st = find('{', line);
             i = st + 1;
             for(int j = st + 1; j < strlen(line); j++) {
@@ -137,7 +139,7 @@ int parse_tm(string path, TuringMachine* tm, int mode) {
             }
         }
         else if(regex_match(line, r_tape_symbol)) {
-            cout << line << endl;
+            //cout << line << endl;
             st = find('{', line);
             i = st + 2;
             for(int j = st + 1; j < strlen(line); j++) {
@@ -147,25 +149,25 @@ int parse_tm(string path, TuringMachine* tm, int mode) {
             }
         }
         else if(regex_match(line, r_start_state)) {
-            cout << line << endl;
+            //cout << line << endl;
             st = find('=', line);
             temp = new char[strlen(line) - st];
             strcpy(temp, line + st + 2);
             tm->start_state = string(temp);
         }
         else if(regex_match(line, r_final_states)) {
-            cout << line << endl;
+            //cout << line << endl;
             st = find('{', line);
             line[strlen(line) - 1] = ',';
             split(',', line + st + 1, tm->final_states);
             line[strlen(line) - 1] = '}';
         }
         else if(regex_match(line, r_blank)) {
-            cout << line << endl;
+            //cout << line << endl;
             continue;
         }
         else if(regex_match(line, r_tape_num)) {
-            cout << line << endl;
+            //cout << line << endl;
             st = find('=', line);
             temp = new char[strlen(line) - st];
             strcpy(temp, line + st + 2);
@@ -177,11 +179,11 @@ int parse_tm(string path, TuringMachine* tm, int mode) {
             tm->tape_num = n;
         }
         else if(regex_match(line, r_transition)) {
-            cout << line << endl;
+            //cout << line << endl;
             vector<string> vec;
             split(' ', line, vec);
             if(vec[1].size() != vec[2].size() || vec[2].size() != vec[3].size()) {
-                cerr << "syntax error";
+                cerr << "syntax error" << endl;
                 cout << line << endl;
                 return -1;
             }
@@ -190,7 +192,7 @@ int parse_tm(string path, TuringMachine* tm, int mode) {
             auto it = tm->transition.find(key);
             if(it != tm->transition.end()) {
                 if(it->second == val) {
-                    cerr << "syntax error: redefinition of transition function";
+                    cerr << "syntax error: redefinition of transition function" << endl;
                     return -1;
                 }
             }
@@ -200,7 +202,7 @@ int parse_tm(string path, TuringMachine* tm, int mode) {
         }
         else{
             cerr << "syntax error";
-            cout << line << endl;
+            //cout << line << endl;
             return -1;
         }
     }

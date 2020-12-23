@@ -17,7 +17,9 @@ public:
     string symbols;
     string directions;
 
-    TransitionTuple(string st, string sym, string dir) {
+    TransitionTuple() {}
+
+    TransitionTuple(string sym, string dir, string st) {
         state = st;
         symbols = sym;
         directions = dir;
@@ -43,6 +45,7 @@ public:
     vector<char> tape_alphabet;
     vector<string> tapes;
     vector<int> heads;
+    vector<int> index0;
     map<pair<string, string>, TransitionTuple> transition;
 
     TuringMachine() {
@@ -60,8 +63,8 @@ int test_tm(TuringMachine *tm);
 
 // Simulator
 int initialize_tm(TuringMachine *tm, string input, int mode);
-bool halt(TuringMachine *tm);
-int simulate_tm(TuringMachine *tm, int mode);
+pair<bool, bool> halt(TuringMachine *tm, TransitionTuple &result);
+int simulate_tm(TuringMachine *tm, string input, int mode);
 
 
 

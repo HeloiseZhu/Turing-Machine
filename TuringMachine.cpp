@@ -9,9 +9,12 @@ int main(int argc,char *argv[]) {
     TuringMachine tm;
 
     // parse tm file
+    //cout << argc;
     ret = parse_cli(argc, argv, filename, input, mode);
     if(ret == -1)
         return -1;
+    else if(argc == 2)
+        return 0;
     ret = parse_tm(filename, &tm, mode);
     if(ret == -1)
         return -1;
@@ -23,7 +26,7 @@ int main(int argc,char *argv[]) {
     ret = initialize_tm(&tm, input, mode);
     if(ret == -1)
         return -1;
-    ret = simulate_tm(&tm, mode);
+    ret = simulate_tm(&tm, input, mode);
     if(ret == -1)
         return -1;
 
