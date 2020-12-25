@@ -50,22 +50,20 @@ public:
 
     TuringMachine() {
         blank = '_';
-        tape_num = 1;
+        tape_num = 0;
     }
 };
-
 
 
 // Parser
 int parse_cli(int argc, char *argv[], string &path, string &input, int &mode);
 int parse_tm(string path, TuringMachine *tm, int mode);
-int test_tm(TuringMachine *tm);
+int test_tm(TuringMachine *tm, int label, int mode=0);
 
 // Simulator
 int initialize_tm(TuringMachine *tm, string input, int mode);
 pair<bool, bool> halt(TuringMachine *tm, TransitionTuple &result);
 int simulate_tm(TuringMachine *tm, string input, int mode);
-
 
 
 #endif
